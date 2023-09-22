@@ -1,18 +1,35 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+const dirPath = path.resolve(__dirname, "crud");
 
-// console.log(path.join(__dirname,'files'))
-let dirPath = path.resolve(__dirname, 'files');
-console.log(dirPath)
+//create -------------------
+fs.writeFileSync(`${dirPath}/data.txt`, "this is crud operation through fs module");
+const filePath = path.resolve(dirPath, "data.txt");
 
-for(let i =0; i<5 ;i++)
-{
-    fs.writeFileSync(`${dirPath}/data${i+1}.txt`,`this is text ${i+1}`)
-}
+//async read ----------------------------
+// fs.readFile(filePath,(err,item)=>{
+//     console.log(item) // buffer value
+// })
 
-fs.readdir(dirPath, (err, files) => {
-    console.log(files); //[ 'data1.txt', 'data2.txt', 'data3.txt', 'data4.txt', 'data5.txt' ]
-    files.forEach((item) =>
-        console.log(item)
-    )
+fs.readFile(filePath, 'utf-8', (err, item) => {
+    console.log(item);
 })
+
+//async update text or add text --------------------
+setTimeout(() => {
+    fs.appendFile(filePath, " added later", (err) => {
+        if (!err) console.log("text updated")
+    })
+}, 5000)
+
+//rename text file
+setTimeout(() => {
+    fs.rename(filePath, `${dirPath}/reName.txt`, (err) => {
+        if (!err) console.log("rename successful")
+    })
+}, 7000)
+
+//delete file .........................
+setTimeout(() => {
+    fs.unlinkSync(`${dirPath}/reName.txt`)
+}, 9000)
