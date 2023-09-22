@@ -8,3 +8,6 @@ else if (input[2] === 'remove') {
     fs.unlinkSync(input[3])
 }
 else { console.log("invalid input") }
+
+//node index.js add data.txt "somethin in text"
+//node index.js remove data.txt
