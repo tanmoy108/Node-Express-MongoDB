@@ -1,0 +1,1 @@
+const fs = require("fs").writeFileSync("text.txt","this file is created by fs module which is non global module");

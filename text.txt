@@ -1,0 +1,1 @@
+this file is created by fs module which is non global module
