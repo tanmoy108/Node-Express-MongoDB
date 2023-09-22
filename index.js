@@ -1,13 +1,18 @@
 const fs = require('fs');
-const input = process.argv;
+const path = require('path');
 
-if (input[2] === 'add') {
-    fs.writeFileSync(input[3], input[4])
-}
-else if (input[2] === 'remove') {
-    fs.unlinkSync(input[3])
-}
-else { console.log("invalid input") }
+// console.log(path.join(__dirname,'files'))
+let dirPath = path.resolve(__dirname, 'files');
+console.log(dirPath)
 
-//node index.js add data.txt "somethin in text"
-//node index.js remove data.txt
+for(let i =0; i<5 ;i++)
+{
+    fs.writeFileSync(`${dirPath}/data${i+1}.txt`,`this is text ${i+1}`)
+}
+
+fs.readdir(dirPath, (err, files) => {
+    console.log(files); //[ 'data1.txt', 'data2.txt', 'data3.txt', 'data4.txt', 'data5.txt' ]
+    files.forEach((item) =>
+        console.log(item)
+    )
+})
