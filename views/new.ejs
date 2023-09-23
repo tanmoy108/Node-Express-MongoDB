@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejs Template</title>
+    <style>
+        h2 {
+            color: blueviolet
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("common/header") %> 
+    <h2>hello <%= useInfo.name %>
+    </h2>
+    <p>Email= <%= useInfo.email %>
+    </p>
+    <ul>
+        <% useInfo.skill.forEach((item)=>{%>
+            <li>
+                <%= item %>
+            </li>
+        <%})%>
+    </ul>
+</body>
+
+</html>
