@@ -1,17 +1,13 @@
-const express =require("express");
-const server = express();
-
-server.set("view engine","ejs")
-
-server.get("/ejs",(_,res)=>{
-    const useInfo = {
-        name:"tanmoy",
-        email:"tanmooy@gmail.com",
-        skill:['js','react','node','c++']
-    }
-    res.render("new",{useInfo});
+var express = require("express")
+var app = express()
+var requestTime = function (req, res, next) {
+    req.requestTime = Date.now()
+    next()
+}
+app.use(requestTime)
+app.get("/", function (req, res) {
+    var responseText = "Hi Familly!<br>"
+    responseText += `<small>Requested at:${req.requestTime}</small>`
+    res.send(responseText)
 })
-
-server.listen(8000,()=>{
-    console.log("server connected")
-})
+app.listen(3000)
