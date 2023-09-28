@@ -1,34 +1,46 @@
-const express = require("express");
-const app = express();
-const dbConnection = require("./DBConnection");
-const {ObjectId} = require("mongodb")
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-app.use(express.json())
 
-app.get("/", async (req, res) => {
-  const fullDB = await dbConnection();
-  const data = await fullDB.find().toArray();
-  res.send(data);
-})
+if (mongoose.connect('mongodb://127.0.0.1:27017/school')) { console.log("db connected") }
 
-app.post("/",async (req,res)=>{
-  const fullDB = await dbConnection();
-  const data = await fullDB.insertOne(req.body);
-  res.send(data);
-})
+//schema..................... 
+const StudentSchema = new Schema({
+  name: String,
+  class: Number,
+  roll: Number,
+  gender: String
+});
 
-app.put("/update/:id",async(req,res)=>{
-  const fullDB = await dbConnection();
-  const data = await fullDB.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
-  res.send(data);
-})
+//Create ...............................................
+const DataInput = async()=>{
+const StudentModel = mongoose.model('students', StudentSchema);
+const student = new StudentModel({ name: 'sh ', class: 5, roll: 4, gender: "male" });
+const inputData = await student.save();
+console.log(Data)
+}
+// DataInput()
 
-app.delete("/:id",async(req,res)=>{
-  const fullDB = await dbConnection();
-  const data = await fullDB.deleteOne({_id:new ObjectId(req.params.id)});
-  res.send(data);
-})
+//Update ..................................................
+const DataUpdate = async()=>{
+  const StudentModel = mongoose.model("students",StudentSchema);
+  const updateData = await StudentModel.updateOne({name :"sh tanmoy"},{$set: {class:6,roll:45}})
+  console.log(updateData)
+}
+// DataUpdate()
 
-app.listen(8000, () => {
-  console.log("started")
-})
+//Delete ...............................................
+const DataDelete = async()=>{
+  const StudentModel = mongoose.model("students",StudentSchema);
+  const deleteData = await StudentModel.deleteMany({name:"sh tanmoy"})
+  console.log(deleteData)
+}
+// DataDelete()
+
+//Read .................................................
+const DataFind = async ()=>{
+  const StudentModel = mongoose.model("students",StudentSchema);
+  const findData = await StudentModel.find()
+  console.log(findData)
+}
+// DataFind()
