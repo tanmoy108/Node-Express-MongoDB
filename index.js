@@ -1,22 +1,22 @@
 const express = require("express");
-const StudentModel = require("./Model");
-require("./DBconnection")
-
+const multer = require('multer')
 const app = express();
 app.use(express.json())
 
-// search multiple field
-app.get("/search/:key",async(req,res)=>{
-  console.log(req.params.key)
-  const getData = await StudentModel.find(
-    {
-    "$or":[
-      {"name":{$regex:req.params.key}},
-      {"bloodGroup":{$regex:req.params.key}},
-      {"gender":{$regex:req.params.key}},
-    ]
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './asset/upload')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix+".jpg")
+    }
   })
-  res.send(getData);
+}).single('uploaded_file')
+
+app.post("/upload", upload, (req, res) => {
+  res.send("file uploaded")
 })
 
 app.listen(8000, () => {
